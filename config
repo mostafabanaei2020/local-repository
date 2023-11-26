@@ -1,0 +1,91 @@
+Public server:
+# Update package index
+sudo apt update
+
+# Install prerequisites
+sudo apt install -y apt-transport-https ca-certificates curl software-properties-common
+
+# Add Docker’s official GPG key
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+
+# Add Docker repository to APT sources
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+
+# Install Docker Engine
+sudo apt update
+sudo apt install -y docker-ce docker-ce-cli containerd.io
+
+# Start and enable Docker service
+sudo systemctl start docker
+sudo systemctl enable docker
+
+
+Public server
+
+# Pull the Docker Registry image from Docker Hub
+sudo docker pull registry
+
+# Run the Docker Registry container
+sudo docker run -d -p 5000:5000 --restart=always --name my-local-registry registry
+docker ps 
+
+Start Download images:
+
+# Tag an image
+sudo docker tag nginx localhost:5000/nginx
+
+# Push the image
+sudo docker push localhost:5000/nginx
+
+PULL from local registry:
+sudo docker pull localhost:5000/nginx
+
+example:
+docker pull IP:5000/nginx
+
+
+
+====================================
+
+vm machine :
+sudo apt update
+
+# Install prerequisites
+sudo apt install -y apt-transport-https ca-certificates curl software-properties-common
+
+# Add Docker’s official GPG key
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+
+# Add Docker repository to APT sources
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+
+# Install Docker Engine
+sudo apt update
+sudo apt install -y docker-ce docker-ce-cli containerd.io
+
+# Start and enable Docker service
+sudo systemctl start docker
+sudo systemctl enable docker
+
+
+vi /etc/docker/daemon.json
+{
+  "insecure-registries": ["IP:5000"]
+}
+
+sudo systemctl restart docker
+sudo docker pull IP:5000/python
+sudo docker images
+
+
+
+
+
+
+
+
+
+
+
+
+
